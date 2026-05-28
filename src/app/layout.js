@@ -1,16 +1,7 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { manrope } from "@/lib/fonts";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Navbar from "@/components/shared/Navbar";
+import Footer from "@/components/shared/Footer";
 
 export const metadata = {
   title: "Create Next App",
@@ -22,14 +13,13 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       data-theme="dark"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${manrope.className}  dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-black">
         <Navbar></Navbar>
-        <main>
-        {children}
-        </main>
-        </body>
+        <main>{children}</main>
+        <Footer></Footer>
+      </body>
     </html>
   );
 }

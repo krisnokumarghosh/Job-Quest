@@ -2,23 +2,30 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { BriefcaseFill } from "@gravity-ui/icons";
+import { marckScript, megrim } from "@/lib/fonts";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="w-full  pt-6">
+    <nav className="w-full  pt-6 mb-25">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-
           {/* Logo */}
-          <Link href="/" >
-           
-            <div className="leading-tight">
-              <span className=" text-white text-[25px] font-semibold tracking-wide">
-                Job<span className="text-violet-500">Quest</span>
-              </span>
-              
+          <Link href="/">
+            <div className="leading-tight flex items-center gap-2">
+              <div className="border p-2 rounded-xl bg-white">
+                <BriefcaseFill fontSize="" className="text-violet-500" />
+              </div>
+              <div>
+                <span className={` text-white text-[25px]  tracking-wide`}>
+                  Job
+                </span>
+                <span className={` text-violet-500 text-[25px] font-semibold `}>
+                  Quest
+                </span>
+              </div>
             </div>
           </Link>
 
