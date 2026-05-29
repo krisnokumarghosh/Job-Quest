@@ -3,10 +3,20 @@
 import Link from "next/link";
 import { useState } from "react";
 import { BriefcaseFill } from "@gravity-ui/icons";
-import { marckScript, megrim } from "@/lib/fonts";
+import { authClient } from "@/lib/auth-client";
+import { Button } from "@heroui/react";
+import { redirect } from "next/navigation";
 
 export default function Navbar() {
+  const { data: session, isPending } = authClient.useSession();
+  const user = session?.user;
   const [menuOpen, setMenuOpen] = useState(false);
+  console.log(session);
+
+  const handleSignOut = async () => {
+     await authClient.signOut();
+     redirect("/")
+  }
 
   return (
     <nav className="w-full  pt-6 mb-25">
@@ -53,12 +63,24 @@ export default function Navbar() {
             {/* Divider */}
             <div className="w-px h-5 bg-white/10 mx-2" />
 
-            <Link
-              href="/signin"
-              className="px-4 py-2 text-sm font-semibold text-[#5C53FE] hover:text-[#4f49c7] transition-colors duration-150"
-            >
-              Sign In
-            </Link>
+            {isPending ? (
+              <span>Loading...</span>
+            ) : user ? (
+              <div className="flex items-center">
+                <p>Hi, {user?.name}!</p>
+              <Button onClick={handleSignOut} className="px-3 py-2.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors rounded-lg bg-transparent">
+                Log Out
+              </Button>
+              </div>
+            ) : (
+              <Link
+                href="/signin"
+                className="px-3 py-2.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors rounded-lg"
+              >
+                Sign In
+              </Link>
+            )}
+
             <Link
               href="/get-started"
               className="ml-1 px-5 py-2 text-sm font-semibold text-gray-900 bg-white hover:bg-gray-100 rounded-lg transition-colors duration-150"
@@ -106,38 +128,42 @@ export default function Navbar() {
             <Link
               href="/jobs"
               className="px-3 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-              onClick={() => setMenuOpen(false)}
             >
               Browse Jobs
             </Link>
             <Link
               href="/company"
               className="px-3 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-              onClick={() => setMenuOpen(false)}
             >
               Company
             </Link>
             <Link
               href="/pricing"
               className="px-3 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-              onClick={() => setMenuOpen(false)}
             >
               Pricing
             </Link>
 
-            <div className="h-px bg-white/10 my-1" />
+            <div className=" bg-white/10 my-1" />
 
-            <Link
-              href="/signin"
-              className="px-3 py-2.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors rounded-lg"
-              onClick={() => setMenuOpen(false)}
-            >
-              Sign In
-            </Link>
+            {isPending ? (
+              <span>Loadinf...</span>
+            ) : user ? (
+              <Button onClick={handleSignOut} className="px-3 py-2.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors rounded-lg bg-transparent">
+                Log Out
+              </Button>
+            ) : (
+              <Link
+                href="/signin"
+                className="px-3 py-2.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors rounded-lg"
+              >
+                Sign In
+              </Link>
+            )}
+
             <Link
               href="/get-started"
               className="mt-1 px-3 py-2.5 text-sm font-semibold text-center text-gray-900 bg-white hover:bg-gray-100 rounded-lg transition-colors"
-              onClick={() => setMenuOpen(false)}
             >
               Get Started
             </Link>

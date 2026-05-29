@@ -5,6 +5,8 @@ import { useState } from "react";
 import { FaBriefcase, FaMapMarkerAlt, FaStar, FaUser } from "react-icons/fa";
 import { TbBuildingSkyscraper } from "react-icons/tb";
 import { IoSearchSharp } from "react-icons/io5";
+import AnimatedNumber from "./Animations/AnimatedNumber";
+import NumberTicker from "./Animations/NumberTicker";
 
 const stats = [
   { icon: <FaBriefcase />, value: "50K", label: "Active Jobs" },
@@ -21,8 +23,6 @@ export default function HeroBanner() {
 
   return (
     <section className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col items-center">
-
-      Globe glow
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
         style={{ width: "700px", height: "700px" }}
@@ -37,8 +37,6 @@ export default function HeroBanner() {
           }}
         />
 
-
-        
         {/* Globe sphere */}
         <div
           className="absolute"
@@ -154,7 +152,7 @@ export default function HeroBanner() {
         <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm mb-6">
           <span className="text-base">🏅</span>
           <span className="text-xs font-semibold tracking-widest text-white/70 uppercase">
-            50,000+ New Jobs This Month
+           <NumberTicker value="50000"/> + New Jobs This Month
           </span>
         </div>
 
@@ -220,7 +218,7 @@ export default function HeroBanner() {
       <div className="relative z-10  sm:mt-24 text-center px-4">
         <p className="text-white/70 text-base mt-20 sm:text-lg leading-relaxed">
           Assisting over{" "}
-          <span className="text-white font-bold">15,000 job seekers</span>
+          <span className="text-white font-bold"><AnimatedNumber value={15000}/> job seekers</span>
           <br />
           find their dream positions.
         </p>
