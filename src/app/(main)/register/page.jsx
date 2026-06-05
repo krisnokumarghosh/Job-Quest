@@ -9,6 +9,8 @@ import {
   Form,
   Input,
   Label,
+  Radio,
+  RadioGroup,
   TextField,
 } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
@@ -20,20 +22,21 @@ export default function RegisterPage() {
 
     const formData = new FormData(e.currentTarget);
     const user = Object.fromEntries(formData.entries());
+    console.log(user);
 
     const { data, error } = await authClient.signUp.email({
-     name: user.name,
+      name: user.name,
       email: user.email,
       password: user.password,
       image: user.image,
+      role: user.userType,
     });
 
     console.log(data);
-    
 
     if (data) {
       alert("registration successfull");
-      redirect("/signin")
+      redirect("/signin");
     } else if (error) {
       alert(error.message);
     }
@@ -178,6 +181,32 @@ export default function RegisterPage() {
 
               <FieldError />
             </TextField>
+
+            <div className="flex flex-col gap-4">
+              <Label>Subscription plan</Label>
+              <RadioGroup
+                defaultValue="seeker"
+                name="userType"
+                orientation="horizontal"
+              >
+                <Radio value="seeker">
+                  <Radio.Control>
+                    <Radio.Indicator className="bg-violet-500 rounded-full" />
+                  </Radio.Control>
+                  <Radio.Content>
+                    <Label>Job Seeker</Label>
+                  </Radio.Content>
+                </Radio>
+                <Radio value="recruiter">
+                  <Radio.Control>
+                    <Radio.Indicator className="bg-violet-500 rounded-full" />
+                  </Radio.Control>
+                  <Radio.Content>
+                    <Label>Recruiter</Label>
+                  </Radio.Content>
+                </Radio>
+              </RadioGroup>
+            </div>
 
             <Button
               type="submit"

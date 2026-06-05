@@ -16,9 +16,7 @@ export default function RootLayout({ children }) {
       className={`${manrope.className}  dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-black">
-        <Navbar></Navbar>
         <main>{children}</main>
-        <Footer></Footer>
       </body>
     </html>
   );
