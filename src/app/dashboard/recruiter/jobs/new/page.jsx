@@ -14,12 +14,15 @@ import {
   Description,
   Button,
   Switch,
+  toast,
 } from "@heroui/react";
 import { CircleDollar, Persons, Boxes3, Briefcase } from "@gravity-ui/icons";
+import { createJob } from "@/lib/actions/jobs";
+import { redirect } from "next/navigation";
 
 // ── mock company data (replace with real session/API data) ──────────────────
 const mockCompany = {
-  name: "Acme Corp",
+  name: "Acme_Corp",
   industry: "Technology",
   approved: true,
 };
@@ -91,14 +94,22 @@ export default function PostJobPage() {
     );
   }
 
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const data = Object.fromEntries(new FormData(e.currentTarget));
-    console.log("Job submitted:", { ...data, isRemote, status: "active" });
+    const formData = Object.fromEntries(new FormData(e.currentTarget));
+    const data = { ...formData, isRemote, status: "active" };
     // TODO: call API
-    setTimeout(() => setIsSubmitting(false), 3000);
-  }
+    const res = await createJob(data);
+
+    if (res.insertedId) {
+      setIsSubmitting(false);
+      toast.success("Job Posted Successfully");
+      redirect("/dashboard/recruiter");
+    } else if (!res) {
+      alert(res.error);
+    }
+  };
 
   return (
     <div className="min-h-screen ">

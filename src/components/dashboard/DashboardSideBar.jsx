@@ -1,10 +1,10 @@
 import {
   Bars,
-  Bell,
+  CirclePlus,
   Envelope,
   Gear,
   House,
-  Magnifier,
+  Briefcase,
   Person,
   LayoutSideContentLeft,
 } from "@gravity-ui/icons";
@@ -13,25 +13,31 @@ import Link from "next/link";
 
 const DashboardSideBar = () => {
   const navItems = [
-    { icon: House, label: "Home" },
-    { icon: Magnifier, label: "Search" },
-    { icon: Bell, label: "Notifications" },
-    { icon: Envelope, label: "Messages" },
-    { icon: Person, label: "Profile" },
-    { icon: Gear, label: "Settings" },
+    { icon: House, href: "/dashboard/recruiter", label: "Home" },
+    { icon: Briefcase, href: "/dashboard/recruiter/jobs", label: "Jobs" },
+    {
+      icon: CirclePlus,
+      href: "/dashboard/recruiter/jobs/new",
+      label: "Create Job",
+    },
+    { icon: Envelope, href: "/dashboard/recruiter/messages", label: "Messages" },
+    { icon: Person, href: "/dashboard/recruiter/profile", label: "Profile" },
+    { icon: Gear, href: "/dashboard/recruiter/settings", label: "Settings" },
   ];
 
   const navContent = (
     <nav className="flex flex-col gap-1">
       {navItems.map((item) => (
-        <button
+        <Link
+       
           key={item.label}
           className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default"
-          type="button"
+           href={item.href}
+          
         >
           <item.icon className="size-5 text-muted" />
           {item.label}
-        </button>
+        </Link>
       ))}
     </nav>
   );
@@ -40,7 +46,7 @@ const DashboardSideBar = () => {
     <div>
       <aside className="hidden w-64 h-full shrink-0 border-r-2 border-default p-4 lg:block ">
         <Link href={"/"} className="block">
-        <h3 className="text-[28px] my-8 font-semibold">JobQuest</h3>
+          <h3 className="text-[28px] my-8 font-semibold">JobQuest</h3>
         </Link>
         {navContent}
       </aside>
@@ -54,11 +60,11 @@ const DashboardSideBar = () => {
             <Drawer.Dialog>
               <Drawer.CloseTrigger />
               <Drawer.Header>
-                <Drawer.Heading className="text-[32px] my-8">JobQuest</Drawer.Heading>
+                <Drawer.Heading className="text-[32px] my-8">
+                  JobQuest
+                </Drawer.Heading>
               </Drawer.Header>
-              <Drawer.Body>
-                {navContent}
-              </Drawer.Body>
+              <Drawer.Body>{navContent}</Drawer.Body>
             </Drawer.Dialog>
           </Drawer.Content>
         </Drawer.Backdrop>
