@@ -8,7 +8,7 @@ const RecruiterJobs = async () => {
 
   return (
     <div>
-      <h1 className="text-[30px] font-semibold mt-12">Manage all Jobs</h1>
+      <h1 className="text-2xl font-semibold mt-10">Manage all Jobs</h1>
       <p className="text-white/60 mt-3">
         View, Update and Manage your current job posting
       </p>

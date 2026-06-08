@@ -17,8 +17,8 @@ const RecruiterPage = () => {
   ];
 
   return (
-    <div className="lg:mt-12">
-      <h2 className="font-medium text-[32px]">Welcome Back, {user?.name}</h2>
+    <div className="mt-10">
+      <h2 className="font-medium text-2xl">Welcome Back, {user?.name}</h2>
       <StatsSection statsData={recruiterStats}/>
     </div>
   );
