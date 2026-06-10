@@ -16,6 +16,7 @@ import {
 import Image from "next/image";
 import { Alarm, MapPin, Picture, Plus } from "@gravity-ui/icons";
 import { createCompany } from "@/lib/actions/companies";
+import { redirect } from "next/navigation";
 
 const INDUSTRY_OPTIONS = [
   "Technology",
@@ -39,9 +40,7 @@ const EMPLOYEE_RANGES = [
   "1000+ employees",
 ];
 
-const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY; // set in .env.local
-
-export default function RegisterCompanyModal() {
+export default function RegisterCompanyModal({ recruiter }) {
   // const [form, setForm] = useState({
   //   companyName: "",
   //   industry: "Technology",
@@ -111,6 +110,8 @@ export default function RegisterCompanyModal() {
     e.preventDefault();
 
     const formData = Object.fromEntries(new FormData(e.currentTarget));
+    const recruiterId = recruiter.id;
+    const status = "Pending";
     // console.log(formData);
 
     setSubmitting(true);
@@ -123,7 +124,7 @@ export default function RegisterCompanyModal() {
         setUploading(false);
       }
 
-      const payload = { ...formData, logoUrl };
+      const payload = { ...formData, logoUrl, recruiterId, status };
 
       const company = await createCompany(payload);
 
@@ -135,6 +136,7 @@ export default function RegisterCompanyModal() {
       setSubmitting(false);
       setUploading(false);
       alert("company created successfully");
+      redirect("/dashboard/recruiter/company")
     }
   };
 
@@ -341,6 +343,7 @@ export default function RegisterCompanyModal() {
                       Brief Description
                     </Label>
                     <TextArea
+                      name="description"
                       rows={4}
                       placeholder="Tell us about your company's mission and culture..."
                       // onChange={handleChange("description")}
@@ -358,7 +361,6 @@ export default function RegisterCompanyModal() {
               </Button>
               <Button
                 type="submit"
-                slot="close"
                 className="bg-white text-[#131314] "
                 form="register-company-form"
                 // disabled={submitting || !form.companyName.trim()}
