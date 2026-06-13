@@ -12,9 +12,12 @@ import {
   TextField,
 } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
-import { redirect } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 
 export default function RegisterPage() {
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
+
   const handleSignUp = async (e) => {
     e.preventDefault();
 
@@ -30,7 +33,7 @@ export default function RegisterPage() {
 
     if (data) {
       alert("login successfull");
-      redirect("/");
+      redirect(redirectTo);
     } else if (error) {
       alert(error.message);
     }
@@ -168,7 +171,7 @@ export default function RegisterPage() {
           <p className="text-center text-xs text-white/35 mt-5">
             Already have an account?{" "}
             <Link
-              href="/register"
+              href={`/register?redirect=${redirectTo}`}
               className="text-violet-400 hover:text-violet-300 transition-colors"
             >
               Register

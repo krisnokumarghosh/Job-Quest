@@ -3,6 +3,7 @@ import { Avatar, Badge, Button, Chip } from "@heroui/react";
 import Image from "next/image";
 import { getJobsById } from "@/lib/api/jobs";
 import { Bookmark, Calendar, CircleDollar } from "@gravity-ui/icons";
+import Link from "next/link";
 
 const JobDetailsPage = async ({ params }) => {
   const { id } = await params;
@@ -60,8 +61,6 @@ const JobDetailsPage = async ({ params }) => {
             </p>
           </div>
         </div>
-
-       
       </div>
 
       {/* Badges & Meta */}
@@ -97,9 +96,11 @@ const JobDetailsPage = async ({ params }) => {
           <Bookmark className="size-4" />
           Save
         </Button>
-        <Button size="sm" className="bg-foreground text-background">
-          Apply now
-        </Button>
+        <Link href={`/jobs/${id}/apply`}>
+          <Button className="bg-foreground text-background" size="sm">
+            Apply now
+          </Button>
+        </Link>
       </div>
     </div>
   );
