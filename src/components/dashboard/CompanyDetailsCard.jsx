@@ -9,7 +9,7 @@ export default function CompanyDetailsCard({ company }) {
 
   return (
     <div className="mt-20">
-      <Card className="w-[360px] p-5">
+      <Card className="w-90 p-5">
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -35,7 +35,7 @@ export default function CompanyDetailsCard({ company }) {
           </div>
 
           <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-foreground text-background uppercase tracking-wide">
-            {company.status}
+            {company?.status || "pending"}
           </span>
         </div>
 

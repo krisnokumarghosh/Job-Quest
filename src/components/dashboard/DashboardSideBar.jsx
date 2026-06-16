@@ -1,3 +1,4 @@
+import { getUserSession } from "@/lib/core/session";
 import {
   Bars,
   CirclePlus,
@@ -8,12 +9,19 @@ import {
   Person,
   Factory,
   LayoutSideContentLeft,
+  LayoutHeaderSideContent,
+  Bookmark,
+  FileText,
+  CreditCard,
+  Persons,
 } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
 import Link from "next/link";
 
-const DashboardSideBar = () => {
-  const navItems = [
+const DashboardSideBar = async () => {
+  const user = await getUserSession();
+
+  const recruiterNavLinks = [
     { icon: House, href: "/dashboard/recruiter", label: "Home" },
     { icon: Briefcase, href: "/dashboard/recruiter/jobs", label: "Jobs" },
     {
@@ -34,6 +42,55 @@ const DashboardSideBar = () => {
     { icon: Person, href: "/dashboard/recruiter/profile", label: "Profile" },
     { icon: Gear, href: "/dashboard/recruiter/settings", label: "Settings" },
   ];
+
+  const seekerNavLinks = [
+    {
+      icon: LayoutHeaderSideContent,
+      href: "/dashboard/seeker",
+      label: "Dashboard",
+    },
+    { icon: Briefcase, href: "/dashboard/seeker/jobs", label: "Jobs" },
+    {
+      icon: Bookmark,
+      href: "/dashboard/seeker/saved-jobs",
+      label: "Saved Jobs",
+    },
+    {
+      icon: FileText,
+      href: "/dashboard/seeker/applications",
+      label: "Applications",
+    },
+    { icon: CreditCard, href: "/dashboard/seeker/billing", label: "Billing" },
+  ];
+
+  const adminNavLinks = [
+    {
+      icon: LayoutHeaderSideContent,
+      href: "/dashboard/admin",
+      label: "Dashboard",
+    },
+    { icon: Persons, href: "/dashboard/admin/users", label: "Users" },
+    {
+      icon: Factory,
+      href: "/dashboard/admin/companies",
+      label: "Companies",
+    },
+    {
+      icon: Briefcase,
+      href: "/dashboard/admin/jobs",
+      label: "Jobs",
+    },
+    { icon: CreditCard, href: "/dashboard/admin/payment", label: "Payments" },
+    { icon: Gear, href: "/dashboard/admin/settings", label: "Settings" },
+  ];
+
+  const navLinksMap = {
+    seeker: seekerNavLinks,
+    recruiter: recruiterNavLinks,
+    admin: adminNavLinks,
+  };
+
+  const navItems = navLinksMap[user?.role || "seeker"];
 
   const navContent = (
     <nav className="flex flex-col gap-1">

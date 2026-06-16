@@ -13,10 +13,16 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   console.log(session);
 
+  const dashboardLinks = {
+    seeker: "/dashboard/seeker",
+    recruiter: "/dashboard/recruiter",
+    admin: "/dashboard/admin",
+  };
+
   const handleSignOut = async () => {
-     await authClient.signOut();
-     redirect("/")
-  }
+    await authClient.signOut();
+    redirect("/");
+  };
 
   return (
     <nav className="w-full  pt-6 mb-25">
@@ -68,9 +74,12 @@ export default function Navbar() {
             ) : user ? (
               <div className="flex items-center">
                 <p>Hi, {user?.name}!</p>
-              <Button onClick={handleSignOut} className="px-3 py-2.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors rounded-lg bg-transparent">
-                Log Out
-              </Button>
+                <Button
+                  onClick={handleSignOut}
+                  className="px-3 py-2.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors rounded-lg bg-transparent"
+                >
+                  Log Out
+                </Button>
               </div>
             ) : (
               <Link
@@ -81,12 +90,21 @@ export default function Navbar() {
               </Link>
             )}
 
-            <Link
-              href="/get-started"
-              className="ml-1 px-5 py-2 text-sm font-semibold text-gray-900 bg-white hover:bg-gray-100 rounded-lg transition-colors duration-150"
-            >
-              Get Started
-            </Link>
+            {user?.email ? (
+              <Link
+                href={dashboardLinks[user?.role || "seeker"]}
+                className="ml-1 px-5 py-2 text-sm font-semibold text-gray-900 bg-white hover:bg-gray-100 rounded-lg transition-colors duration-150"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                href="/get-started"
+                className="ml-1 px-5 py-2 text-sm font-semibold text-gray-900 bg-white hover:bg-gray-100 rounded-lg transition-colors duration-150"
+              >
+                Get Started
+              </Link>
+            )}
           </div>
 
           {/* Mobile Hamburger */}
@@ -149,7 +167,10 @@ export default function Navbar() {
             {isPending ? (
               <span>Loadinf...</span>
             ) : user ? (
-              <Button onClick={handleSignOut} className="px-3 py-2.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors rounded-lg bg-transparent">
+              <Button
+                onClick={handleSignOut}
+                className="px-3 py-2.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors rounded-lg bg-transparent"
+              >
                 Log Out
               </Button>
             ) : (

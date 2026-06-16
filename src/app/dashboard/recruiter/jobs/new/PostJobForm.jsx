@@ -15,6 +15,7 @@ import {
   Button,
   Switch,
   toast,
+  Chip,
 } from "@heroui/react";
 import { CircleDollar, Persons, Boxes3, Briefcase } from "@gravity-ui/icons";
 import { createJob } from "@/lib/actions/jobs";
@@ -131,254 +132,9 @@ export default function PostJobForm({ company }) {
           className="grid lg:grid-cols-2 gap-5"
         >
           {/* ────────────────────────────────────────────────────────────────
-              SECTION 1 — Job Info
+              SECTION 1 — Company (auto-filled)
           ──────────────────────────────────────────────────────────────── */}
-          <SectionCard
-            icon={<Briefcase />}
-            title="Job Info"
-            subtitle="Basic details about the position"
-          >
-            <Fieldset>
-              <Fieldset.Group className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {/* Job Title */}
-                <TextField isRequired name="jobTitle" className="sm:col-span-2">
-                  <Label className="text-xs text-white/60 mb-1.5 block">
-                    Job Title
-                  </Label>
-                  <Input
-                    placeholder="e.g. Senior Frontend Developer"
-                    className="bg-[#252525] border-white/1 text-white placeholder:text-white/25"
-                  />
-                  <FieldError className="text-xs text-red-400 mt-1" />
-                </TextField>
 
-                {/* Job Category */}
-                <Select
-                  isRequired
-                  name="jobCategory"
-                  fullWidth
-                  placeholder="Select category"
-                >
-                  <Label className="text-xs text-white/60 mb-1.5 block">
-                    Job Category
-                  </Label>
-                  <Select.Trigger className="bg-[#252525] border border-white/1 text-white">
-                    <Select.Value className="text-white" />
-                    <Select.Indicator className="text-white/40" />
-                  </Select.Trigger>
-                  <FieldError className="text-xs text-red-400 mt-1" />
-                  <Select.Popover>
-                    <ListBox>
-                      {JOB_CATEGORIES.map((cat) => (
-                        <ListBox.Item key={cat} id={cat} textValue={cat}>
-                          {cat}
-                        </ListBox.Item>
-                      ))}
-                    </ListBox>
-                  </Select.Popover>
-                </Select>
-
-                {/* Job Type */}
-                <Select
-                  isRequired
-                  name="jobType"
-                  fullWidth
-                  placeholder="Select type"
-                >
-                  <Label className="text-xs text-white/60 mb-1.5 block">
-                    Job Type
-                  </Label>
-                  <Select.Trigger className="bg-[#252525] border border-white/1 text-white">
-                    <Select.Value className="text-white" />
-                    <Select.Indicator className="text-white/40" />
-                  </Select.Trigger>
-                  <FieldError className="text-xs text-red-400 mt-1" />
-                  <Select.Popover>
-                    <ListBox>
-                      {JOB_TYPES.map((type) => (
-                        <ListBox.Item key={type} id={type} textValue={type}>
-                          {type}
-                        </ListBox.Item>
-                      ))}
-                    </ListBox>
-                  </Select.Popover>
-                </Select>
-              </Fieldset.Group>
-            </Fieldset>
-          </SectionCard>
-
-          {/* ────────────────────────────────────────────────────────────────
-              SECTION 2 — Salary & Location
-          ──────────────────────────────────────────────────────────────── */}
-          <SectionCard
-            icon={<CircleDollar />}
-            title="Salary & Location"
-            subtitle="Compensation and where the role is based"
-          >
-            <Fieldset>
-              <Fieldset.Group className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {/* Salary Min */}
-                <TextField name="salaryMin">
-                  <Label className="text-xs text-white/60 mb-1.5 block">
-                    Salary Min
-                  </Label>
-                  <Input
-                    type="number"
-                    placeholder="e.g. 50000"
-                    className="bg-[#252525] border-white/10 text-white placeholder:text-white/25"
-                  />
-                </TextField>
-
-                {/* Salary Max */}
-                <TextField name="salaryMax">
-                  <Label className="text-xs text-white/60 mb-1.5 block">
-                    Salary Max
-                  </Label>
-                  <Input
-                    type="number"
-                    placeholder="e.g. 80000"
-                    className="bg-[#252525] border-white/10 text-white placeholder:text-white/25"
-                  />
-                </TextField>
-
-                {/* Currency */}
-                <Select name="currency" fullWidth placeholder="Select currency">
-                  <Label className="text-xs text-white/60 mb-1.5 block">
-                    Currency
-                  </Label>
-                  <Select.Trigger className="bg-[#252525] border border-white/10 text-white">
-                    <Select.Value className="text-white" />
-                    <Select.Indicator className="text-white/40" />
-                  </Select.Trigger>
-                  <Select.Popover>
-                    <ListBox>
-                      {CURRENCIES.map((c) => (
-                        <ListBox.Item key={c} id={c} textValue={c}>
-                          {c}
-                        </ListBox.Item>
-                      ))}
-                    </ListBox>
-                  </Select.Popover>
-                </Select>
-
-                {/* Application Deadline */}
-                <TextField name="deadline">
-                  <Label className="text-xs text-white/60 mb-1.5 block">
-                    Application Deadline
-                  </Label>
-                  <Input
-                    type="date"
-                    className="bg-[#252525] border-white/10 text-white placeholder:text-white/25"
-                  />
-                </TextField>
-
-                {/* Remote Toggle */}
-                <div className="sm:col-span-2 flex items-center justify-between rounded-xl border border-white/8 bg-[#1f1f1f] px-4 py-3">
-                  <div>
-                    <p className="text-sm text-white font-medium">
-                      Remote Position
-                    </p>
-                    <p className="text-xs text-white/40 mt-0.5">
-                      Toggle on if no physical location required
-                    </p>
-                  </div>
-                  <Switch
-                    isSelected={isRemote}
-                    onChange={setIsRemote}
-                    aria-label="Remote position"
-                  >
-                    <Switch.Control>
-                      <Switch.Thumb />
-                    </Switch.Control>
-                    <Switch.Content></Switch.Content>
-                  </Switch>
-                </div>
-
-                {/* City */}
-                {!isRemote && (
-                  <>
-                    <TextField name="city">
-                      <Label className="text-xs text-white/60 mb-1.5 block">
-                        City
-                      </Label>
-                      <Input
-                        placeholder="e.g. Dhaka"
-                        className="bg-[#252525] border-white/10 text-white placeholder:text-white/25"
-                      />
-                    </TextField>
-
-                    <TextField name="country">
-                      <Label className="text-xs text-white/60 mb-1.5 block">
-                        Country
-                      </Label>
-                      <Input
-                        placeholder="e.g. Bangladesh"
-                        className="bg-[#252525] border-white/10 text-white placeholder:text-white/25"
-                      />
-                    </TextField>
-                  </>
-                )}
-              </Fieldset.Group>
-            </Fieldset>
-          </SectionCard>
-
-          {/* ────────────────────────────────────────────────────────────────
-              SECTION 3 — Job Description
-          ──────────────────────────────────────────────────────────────── */}
-          <SectionCard
-            icon={<Persons />}
-            title="Job Description"
-            subtitle="Describe the role in detail"
-          >
-            <Fieldset>
-              <Fieldset.Group className="grid grid-cols-1 gap-4">
-                {/* Responsibilities */}
-                <TextField isRequired name="responsibilities">
-                  <Label className="text-xs text-white/60 mb-1.5 block">
-                    Responsibilities
-                  </Label>
-                  <TextArea
-                    rows={5}
-                    placeholder="List the key responsibilities of the role..."
-                    className="bg-[#252525] border-white/10 text-white placeholder:text-white/25 resize-none"
-                  />
-                  <FieldError className="text-xs text-red-400 mt-1" />
-                </TextField>
-
-                {/* Requirements */}
-                <TextField isRequired name="requirements">
-                  <Label className="text-xs text-white/60 mb-1.5 block">
-                    Requirements
-                  </Label>
-                  <TextArea
-                    rows={5}
-                    placeholder="List skills, experience, and qualifications required..."
-                    className="bg-[#252525] border-white/10 text-white placeholder:text-white/25 resize-none"
-                  />
-                  <FieldError className="text-xs text-red-400 mt-1" />
-                </TextField>
-
-                {/* Benefits (optional) */}
-                <TextField name="benefits">
-                  <Label className="text-xs text-white/60 mb-1.5 block">
-                    Benefits{" "}
-                    <span className="text-white/30 font-normal">
-                      (optional)
-                    </span>
-                  </Label>
-                  <TextArea
-                    rows={4}
-                    placeholder="Health insurance, remote work options, stock options..."
-                    className="bg-[#252525] border-white/10 text-white placeholder:text-white/25 resize-none"
-                  />
-                </TextField>
-              </Fieldset.Group>
-            </Fieldset>
-          </SectionCard>
-
-          {/* ────────────────────────────────────────────────────────────────
-              SECTION 4 — Company (auto-filled)
-          ──────────────────────────────────────────────────────────────── */}
           <SectionCard
             icon={<Boxes3 />}
             title="Company"
@@ -394,34 +150,286 @@ export default function PostJobForm({ company }) {
                 </p>
                 <p className="text-xs text-white/40">{company.category}</p>
               </div>
-              <span className="shrink-0 text-xs font-medium text-emerald-400 bg-emerald-400/10 px-2.5 py-1 rounded-full">
-                Approved
-              </span>
+              <Chip
+                color={company.status === "Pending" ? "warning" : "success"}
+              >
+                {company.status}
+              </Chip>
             </div>
             {/* hidden field so it's part of the FormData */}
             <input type="hidden" name="company" value={company.companyName} />
           </SectionCard>
 
-          {/* ────────────────────────────────────────────────────────────────
-              SUBMIT
-          ──────────────────────────────────────────────────────────────── */}
-          <div className="flex items-center justify-between pt-2">
-            <Button
-              type="button"
-              variant="ghost"
-              className="text-white/50 hover:text-white"
-              onPress={() => window.history.back()}
+          {company.status === "Approved" && (
+            <SectionCard
+              icon={<Briefcase />}
+              title="Job Info"
+              subtitle="Basic details about the position"
             >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              isPending={isSubmitting}
-              className="bg-white text-black font-semibold px-6 rounded-xl hover:bg-white/90 transition-colors"
+              <Fieldset>
+                <Fieldset.Group className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {/* Job Title */}
+                  <TextField
+                    isRequired
+                    name="jobTitle"
+                    className="sm:col-span-2"
+                  >
+                    <Label className="text-xs text-white/60 mb-1.5 block">
+                      Job Title
+                    </Label>
+                    <Input
+                      placeholder="e.g. Senior Frontend Developer"
+                      className="bg-[#252525] border-white/1 text-white placeholder:text-white/25"
+                    />
+                    <FieldError className="text-xs text-red-400 mt-1" />
+                  </TextField>
+
+                  {/* Job Category */}
+                  <Select
+                    isRequired
+                    name="jobCategory"
+                    fullWidth
+                    placeholder="Select category"
+                  >
+                    <Label className="text-xs text-white/60 mb-1.5 block">
+                      Job Category
+                    </Label>
+                    <Select.Trigger className="bg-[#252525] border border-white/1 text-white">
+                      <Select.Value className="text-white" />
+                      <Select.Indicator className="text-white/40" />
+                    </Select.Trigger>
+                    <FieldError className="text-xs text-red-400 mt-1" />
+                    <Select.Popover>
+                      <ListBox>
+                        {JOB_CATEGORIES.map((cat) => (
+                          <ListBox.Item key={cat} id={cat} textValue={cat}>
+                            {cat}
+                          </ListBox.Item>
+                        ))}
+                      </ListBox>
+                    </Select.Popover>
+                  </Select>
+
+                  {/* Job Type */}
+                  <Select
+                    isRequired
+                    name="jobType"
+                    fullWidth
+                    placeholder="Select type"
+                  >
+                    <Label className="text-xs text-white/60 mb-1.5 block">
+                      Job Type
+                    </Label>
+                    <Select.Trigger className="bg-[#252525] border border-white/1 text-white">
+                      <Select.Value className="text-white" />
+                      <Select.Indicator className="text-white/40" />
+                    </Select.Trigger>
+                    <FieldError className="text-xs text-red-400 mt-1" />
+                    <Select.Popover>
+                      <ListBox>
+                        {JOB_TYPES.map((type) => (
+                          <ListBox.Item key={type} id={type} textValue={type}>
+                            {type}
+                          </ListBox.Item>
+                        ))}
+                      </ListBox>
+                    </Select.Popover>
+                  </Select>
+                </Fieldset.Group>
+              </Fieldset>
+            </SectionCard>
+          )}
+
+          {company.status === "Approved" && (
+            <SectionCard
+              icon={<CircleDollar />}
+              title="Salary & Location"
+              subtitle="Compensation and where the role is based"
             >
-              {isSubmitting ? "Publishing..." : "Publish Job"}
-            </Button>
-          </div>
+              <Fieldset>
+                <Fieldset.Group className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {/* Salary Min */}
+                  <TextField name="salaryMin">
+                    <Label className="text-xs text-white/60 mb-1.5 block">
+                      Salary Min
+                    </Label>
+                    <Input
+                      type="number"
+                      placeholder="e.g. 50000"
+                      className="bg-[#252525] border-white/10 text-white placeholder:text-white/25"
+                    />
+                  </TextField>
+
+                  {/* Salary Max */}
+                  <TextField name="salaryMax">
+                    <Label className="text-xs text-white/60 mb-1.5 block">
+                      Salary Max
+                    </Label>
+                    <Input
+                      type="number"
+                      placeholder="e.g. 80000"
+                      className="bg-[#252525] border-white/10 text-white placeholder:text-white/25"
+                    />
+                  </TextField>
+
+                  {/* Currency */}
+                  <Select
+                    name="currency"
+                    fullWidth
+                    placeholder="Select currency"
+                  >
+                    <Label className="text-xs text-white/60 mb-1.5 block">
+                      Currency
+                    </Label>
+                    <Select.Trigger className="bg-[#252525] border border-white/10 text-white">
+                      <Select.Value className="text-white" />
+                      <Select.Indicator className="text-white/40" />
+                    </Select.Trigger>
+                    <Select.Popover>
+                      <ListBox>
+                        {CURRENCIES.map((c) => (
+                          <ListBox.Item key={c} id={c} textValue={c}>
+                            {c}
+                          </ListBox.Item>
+                        ))}
+                      </ListBox>
+                    </Select.Popover>
+                  </Select>
+
+                  {/* Application Deadline */}
+                  <TextField name="deadline">
+                    <Label className="text-xs text-white/60 mb-1.5 block">
+                      Application Deadline
+                    </Label>
+                    <Input
+                      type="date"
+                      className="bg-[#252525] border-white/10 text-white placeholder:text-white/25"
+                    />
+                  </TextField>
+
+                  {/* Remote Toggle */}
+                  <div className="sm:col-span-2 flex items-center justify-between rounded-xl border border-white/8 bg-[#1f1f1f] px-4 py-3">
+                    <div>
+                      <p className="text-sm text-white font-medium">
+                        Remote Position
+                      </p>
+                      <p className="text-xs text-white/40 mt-0.5">
+                        Toggle on if no physical location required
+                      </p>
+                    </div>
+                    <Switch
+                      isSelected={isRemote}
+                      onChange={setIsRemote}
+                      aria-label="Remote position"
+                    >
+                      <Switch.Control>
+                        <Switch.Thumb />
+                      </Switch.Control>
+                      <Switch.Content></Switch.Content>
+                    </Switch>
+                  </div>
+
+                  {/* City */}
+                  {!isRemote && (
+                    <>
+                      <TextField name="city">
+                        <Label className="text-xs text-white/60 mb-1.5 block">
+                          City
+                        </Label>
+                        <Input
+                          placeholder="e.g. Dhaka"
+                          className="bg-[#252525] border-white/10 text-white placeholder:text-white/25"
+                        />
+                      </TextField>
+
+                      <TextField name="country">
+                        <Label className="text-xs text-white/60 mb-1.5 block">
+                          Country
+                        </Label>
+                        <Input
+                          placeholder="e.g. Bangladesh"
+                          className="bg-[#252525] border-white/10 text-white placeholder:text-white/25"
+                        />
+                      </TextField>
+                    </>
+                  )}
+                </Fieldset.Group>
+              </Fieldset>
+            </SectionCard>
+          )}
+
+          {company.status === "Approved" && (
+            <SectionCard
+              icon={<Persons />}
+              title="Job Description"
+              subtitle="Describe the role in detail"
+            >
+              <Fieldset>
+                <Fieldset.Group className="grid grid-cols-1 gap-4">
+                  {/* Responsibilities */}
+                  <TextField isRequired name="responsibilities">
+                    <Label className="text-xs text-white/60 mb-1.5 block">
+                      Responsibilities
+                    </Label>
+                    <TextArea
+                      rows={5}
+                      placeholder="List the key responsibilities of the role..."
+                      className="bg-[#252525] border-white/10 text-white placeholder:text-white/25 resize-none"
+                    />
+                    <FieldError className="text-xs text-red-400 mt-1" />
+                  </TextField>
+
+                  {/* Requirements */}
+                  <TextField isRequired name="requirements">
+                    <Label className="text-xs text-white/60 mb-1.5 block">
+                      Requirements
+                    </Label>
+                    <TextArea
+                      rows={5}
+                      placeholder="List skills, experience, and qualifications required..."
+                      className="bg-[#252525] border-white/10 text-white placeholder:text-white/25 resize-none"
+                    />
+                    <FieldError className="text-xs text-red-400 mt-1" />
+                  </TextField>
+
+                  {/* Benefits (optional) */}
+                  <TextField name="benefits">
+                    <Label className="text-xs text-white/60 mb-1.5 block">
+                      Benefits{" "}
+                      <span className="text-white/30 font-normal">
+                        (optional)
+                      </span>
+                    </Label>
+                    <TextArea
+                      rows={4}
+                      placeholder="Health insurance, remote work options, stock options..."
+                      className="bg-[#252525] border-white/10 text-white placeholder:text-white/25 resize-none"
+                    />
+                  </TextField>
+                </Fieldset.Group>
+              </Fieldset>
+            </SectionCard>
+          )}
+
+          {company.status === "Approved" && (
+            <div className="flex items-center justify-between pt-2">
+              <Button
+                type="button"
+                variant="ghost"
+                className="text-white/50 hover:text-white"
+                onPress={() => window.history.back()}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                isPending={isSubmitting}
+                className="bg-white text-black font-semibold px-6 rounded-xl hover:bg-white/90 transition-colors"
+              >
+                {isSubmitting ? "Publishing..." : "Publish Job"}
+              </Button>
+            </div>
+          )}
         </Form>
       </div>
     </div>
